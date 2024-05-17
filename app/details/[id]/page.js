@@ -4,6 +4,24 @@ import { getRecipeById } from '@/db/dbQueries'
 import Image from 'next/image'
 import React from 'react'
 
+// metadata
+export const generateMetadata = async ({ params: { id } }) => {
+    const recipe = await getRecipeById(id);
+    return {
+        title: `Khana Khajana | ${recipe.name}`,
+        description: recipe.description,
+        openGraph: {
+            images: [
+                {
+                    url: recipe.thumbnail,
+                    height: 1200,
+                    width: 600
+                }
+            ],
+        }
+    }
+}
+
 export default async function DetailsPage({ params: { id } }) {
     const recipe = await getRecipeById(id);
     return (

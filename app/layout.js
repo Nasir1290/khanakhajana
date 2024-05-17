@@ -7,8 +7,8 @@ import AuthProvider from "./providers/authProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Khana-Khajana",
-  description: "Khana for setisfy your hunger",
+  title: "Khana-Khajana|Home",
+  description: "We are here to setisfy your hunger",
 };
 
 export default async function RootLayout({ children }) {
