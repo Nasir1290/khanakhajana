@@ -32,16 +32,45 @@
 
 
 
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 
-const uri =process.env.MONGO_URI
+// const uri =process.env.MONGO_URI
+
+// export default async function connectMongo() {
+//   try {
+//     await mongoose.connect(uri);
+//     console.log("Connected to MongoDB successfully!");
+//   } catch (error) {
+//     console.error("Error connecting to MongoDB:", error);
+//     throw error; // Re-throw the error for handling at the caller
+//   }
+// }
+
+
+
+
+
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+// Load environment variables from a .env file if present
+dotenv.config();
+
+const uri = process.env.MONGO_URI;
 
 export default async function connectMongo() {
   try {
-    await mongoose.connect(uri);
+    await mongoose.connect(uri, {
+      serverSelectionTimeoutMS: 30000, // Timeout after 30s instead of 10s
+      socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+      family: 4 // Use IPv4, skip trying IPv6
+    });
     console.log("Connected to MongoDB successfully!");
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
     throw error; // Re-throw the error for handling at the caller
   }
 }
+
+// Enable Mongoose debugging to see more information about the connection process
+mongoose.set('debug', true);
