@@ -59,16 +59,18 @@ dotenv.config();
 const uri = process.env.MONGO_URI;
 
 export default async function connectMongo() {
-  try {
-    await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 30000, // Timeout after 30s instead of 10s
-      socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-      family: 4 // Use IPv4, skip trying IPv6
-    });
-    console.log("Connected to MongoDB successfully!");
-  } catch (error) {
-    console.error("Error connecting to MongoDB:", error);
-    throw error; // Re-throw the error for handling at the caller
+  if (mongoose.connection.readyState !== 1) {
+    try {
+      await mongoose.connect(uri, {
+        serverSelectionTimeoutMS: 30000, // Timeout after 30s instead of 10s
+        socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+        family: 4 // Use IPv4, skip trying IPv6
+      });
+      console.log("Connected to MongoDB successfully!");
+    } catch (error) {
+      console.error("Error connecting to MongoDB:", error);
+      throw error; // Re-throw the error for handling at the caller
+    }
   }
 }
 
