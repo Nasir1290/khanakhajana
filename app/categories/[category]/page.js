@@ -2,6 +2,15 @@ import { getAllRecipe, getUser, getRecipeByCategory } from "@/db/dbQueries";
 import FoodItemCard from "@/components/landing/FoodItemCard";
 import Recipes from "@/components/landing/Recipes";
 
+
+export const generateMetadata = async ({ params: { category } }) => {
+    return {
+        title: `Khana Khajana | ${category}`,
+        description: category,
+    }
+}
+
+
 async function CategoryPage({ params: { category } }) {
 
     const decodedCategory = category ? decodeURIComponent(category) : "";

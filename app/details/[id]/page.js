@@ -22,6 +22,8 @@ export const generateMetadata = async ({ params: { id } }) => {
     }
 }
 
+
+
 export default async function DetailsPage({ params: { id } }) {
     const recipe = await getRecipeById(id);
     return (
